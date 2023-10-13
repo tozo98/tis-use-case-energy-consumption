@@ -1,4 +1,4 @@
-package com.tis.usecase.energyconsumption.app;
+package com.tis.usecase.energyconsumption;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
