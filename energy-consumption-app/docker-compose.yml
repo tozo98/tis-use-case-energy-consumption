@@ -11,18 +11,19 @@ services:
       - 'SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/energy-consumption-db'
       - 'SPRING_DATASOURCE_USERNAME=db-default-user'
       - 'SPRING_DATASOURCE_PASSWORD=abc123'
-      - 'SPRING_JPA_HIBERNATE_DDL_AUTO=create'
+      - 'spring.jpa.hibernate.ddl-auto=create'
       - 'spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true'
       - 'spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect'
       - 'spring.jpa.show-sql=true'
-      - 'spring.jpa.properties.hibernate.format_sql = true'
+      - 'spring.jpa.properties.hibernate.format_sql=true'
+      - 'spring.sql.init.mode=always'
+      - 'spring.jpa.defer-datasource-initialization=true'
+      - 'spring.datasource.data=classpath:data.sql'
   database:
     image: 'postgres:15.0'
     environment:
       - 'POSTGRES_DB=energy-consumption-db'
       - 'POSTGRES_USER=db-default-user'
       - 'POSTGRES_PASSWORD=abc123'
-    volumes:
-      - './database:/docker-entrypoint-initdb.d'
     ports:
       - '5432:5432/tcp'
