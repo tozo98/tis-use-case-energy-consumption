@@ -10,7 +10,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
-public class ProfileHandlerRestControllerAdvice  extends ResponseEntityExceptionHandler {
+public class ProfileHandlerRestControllerAdvice extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(InvalidProfileException.class)
     public ResponseEntity<Object> handleInvalidProfileException(InvalidProfileException exception, WebRequest request) {

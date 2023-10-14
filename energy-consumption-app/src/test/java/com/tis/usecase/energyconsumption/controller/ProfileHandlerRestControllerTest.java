@@ -39,20 +39,20 @@ class ProfileHandlerRestControllerTest {
         ProfileEntity entity = new ProfileEntity();
         entity.setName("profile-name");
         entity.setFractions(List.of(new FractionEntity(42L, entity, 4, 0.5)));
-        when(profileHandlerServiceMock.retrieveAll()).thenReturn(List.of(entity));
+        when(profileHandlerServiceMock.findAll()).thenReturn(List.of(entity));
         ProfileResponse response = new ProfileResponse();
         response.setName("profile-name");
         response.setFractions(Map.of("APR", 0.5));
         when(profileResponseConverterMock.convert(any())).thenReturn(response);
 
-        List<ProfileResponse> result = underTest.retrieveProfiles();
+        List<ProfileResponse> result = underTest.findProfiles();
 
         assertNotNull(result);
         assertNotNull(result.get(0).getFractions());
         assertEquals(entity.getFractions().size(), result.get(0).getFractions().size());
         assertTrue(result.get(0).getFractions().containsKey("APR"));
         assertEquals(entity.getFractions().get(0).getValue(), result.get(0).getFractions().get("APR"));
-        verify(profileHandlerServiceMock).retrieveAll();
+        verify(profileHandlerServiceMock).findAll();
         verify(profileResponseConverterMock).convert(any());
     }
 

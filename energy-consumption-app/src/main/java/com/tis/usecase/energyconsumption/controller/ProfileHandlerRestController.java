@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,13 +26,18 @@ public class ProfileHandlerRestController {
     private ProfileResponseConverter profileResponseConverter;
 
     @GetMapping
-    public List<ProfileResponse> retrieveProfiles() {
-        return profileHandlerService.retrieveAll().stream().map(profileResponseConverter::convert).collect(Collectors.toList());
+    public List<ProfileResponse> findProfiles() {
+        return profileHandlerService.findAll().stream().map(profileResponseConverter::convert).collect(Collectors.toList());
+    }
+
+    @GetMapping("/{name}")
+    public ProfileResponse findProfile(@NotBlank @RequestParam String name) {
+        return profileResponseConverter.convert(profileHandlerService.findByName(name));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void saveAll(@RequestBody List<ProfileRequest> request) {
+    public void saveAll(@Valid @RequestBody List<ProfileRequest> request) {
         profileHandlerService.saveAll(request.stream().map(profileConverter::convert).collect(Collectors.toList()));
     }
 

@@ -51,7 +51,7 @@ class ProfileHandlerServiceTest {
         entity.setId(42L);
         List<ProfileEntity> entities = List.of(entity);
         when(profileRepositoryMock.findAll()).thenReturn(entities);
-        List<ProfileEntity> result = underTest.retrieveAll();
+        List<ProfileEntity> result = underTest.findAll();
         assertNotNull(result);
         assertEquals(entities.size(), result.size());
         assertEquals("entity-name", result.get(0).getName());
