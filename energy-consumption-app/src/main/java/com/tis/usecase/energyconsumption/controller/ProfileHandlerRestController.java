@@ -1,8 +1,10 @@
 package com.tis.usecase.energyconsumption.controller;
 
 import com.tis.usecase.energyconsumption.converter.ProfileConverter;
+import com.tis.usecase.energyconsumption.converter.ProfileResponseConverter;
 import com.tis.usecase.energyconsumption.domain.ProfileEntity;
 import com.tis.usecase.energyconsumption.domain.ProfileRequest;
+import com.tis.usecase.energyconsumption.domain.ProfileResponse;
 import com.tis.usecase.energyconsumption.service.ProfileHandlerService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,9 +26,11 @@ public class ProfileHandlerRestController {
 
     private ProfileConverter profileConverter;
 
+    private ProfileResponseConverter profileResponseConverter;
+
     @GetMapping
-    public List<String> retrieveProfiles() {
-        // TODO
+    public List<ProfileResponse> retrieveProfiles() {
+        return profileHandlerService.retrieveAll().stream().map(profileResponseConverter::convert).collect(Collectors.toList());
     }
 
     @PostMapping

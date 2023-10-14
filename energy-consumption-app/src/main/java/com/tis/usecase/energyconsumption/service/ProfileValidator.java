@@ -15,7 +15,7 @@ public class ProfileValidator {
         profiles.forEach(profile -> {
             double sum = profile.getFractions().stream().mapToDouble(FractionEntity::getValue).sum();
             if(sum != 1.0 || profile.getFractions().size() != Month.values().length) {
-                throw new InvalidProfileException();
+                throw new InvalidProfileException("Profile does not meet the requirement for fractions!");
             }
         });
     }
