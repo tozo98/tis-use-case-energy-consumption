@@ -25,8 +25,8 @@ public class ProfileHandlerRestController {
     private ProfileConverter profileConverter;
 
     @GetMapping
-    public List<ProfileEntity> retrieveProfiles() {
-        return profileHandlerService.retrieveAll();
+    public List<String> retrieveProfiles() {
+        // TODO
     }
 
     @PostMapping

@@ -1,23 +1,19 @@
 package com.tis.usecase.energyconsumption.domain;
 
 import lombok.*;
-import org.hibernate.proxy.HibernateProxy;
 
 import javax.persistence.*;
-import java.util.Objects;
 
-@Getter
-@Setter
-@ToString
-@RequiredArgsConstructor
+@Data
 @Entity
 @Table(name = "fraction")
 public class FractionEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne(targetEntity = ProfileEntity.class)
-    private Long profile;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "profile_id")
+    private ProfileEntity profile;
     private Integer month;
     private Double value;
 }

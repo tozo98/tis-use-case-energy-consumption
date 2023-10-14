@@ -27,6 +27,7 @@ public class ProfileConverter implements Converter<ProfileRequest, ProfileEntity
                     FractionEntity fraction = new FractionEntity();
                     fraction.setMonth(monthConverter.convert(key));
                     fraction.setValue(value);
+                    fraction.setProfile(entity);
                     fractions.add(fraction);
                 });
         entity.setFractions(fractions);
