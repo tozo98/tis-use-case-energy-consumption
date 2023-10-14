@@ -17,8 +17,6 @@ public class ProfileHandlerService {
 
     private ProfileRepository profileRepository;
 
-    private FractionRepository fractionRepository;
-
     public void saveAll(List<ProfileEntity> profiles) {
         profileValidator.validate(profiles);
         profileRepository.saveAll(profiles);

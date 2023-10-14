@@ -2,7 +2,6 @@ package com.tis.usecase.energyconsumption.controller;
 
 import com.tis.usecase.energyconsumption.converter.ProfileConverter;
 import com.tis.usecase.energyconsumption.converter.ProfileResponseConverter;
-import com.tis.usecase.energyconsumption.domain.ProfileEntity;
 import com.tis.usecase.energyconsumption.domain.ProfileRequest;
 import com.tis.usecase.energyconsumption.domain.ProfileResponse;
 import com.tis.usecase.energyconsumption.service.ProfileHandlerService;
@@ -10,11 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Month;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
