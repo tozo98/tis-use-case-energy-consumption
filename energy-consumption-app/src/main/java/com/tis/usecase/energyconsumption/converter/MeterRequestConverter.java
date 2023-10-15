@@ -19,13 +19,13 @@ public class MeterRequestConverter implements Converter<MeterRequest, MeterEntit
     @Override
     public MeterEntity convert(MeterRequest meterRequest) {
         MeterEntity meterEntity = new MeterEntity();
-        meterEntity.setId(Long.valueOf(meterRequest.getId()));
+        meterEntity.setId(meterRequest.getMeterId());
         meterEntity.setProfileName(meterRequest.getProfileName());
         List<MeterReadingEntity> meterReadings = new ArrayList<>();
         meterRequest.getReadings().forEach(
                 (key, value) -> {
                     MeterReadingEntity meterReading = new MeterReadingEntity();
-                    meterReading.setValue(value);
+                    meterReading.setReading(value);
                     meterReading.setMonth(monthConverter.convert(key));
                     meterReading.setMeter(meterEntity);
                     meterReadings.add(meterReading);

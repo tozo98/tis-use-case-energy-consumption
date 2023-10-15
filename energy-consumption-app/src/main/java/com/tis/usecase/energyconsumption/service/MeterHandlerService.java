@@ -2,15 +2,16 @@ package com.tis.usecase.energyconsumption.service;
 
 import com.tis.usecase.energyconsumption.domain.MeterEntity;
 import com.tis.usecase.energyconsumption.domain.ProfileEntity;
+import com.tis.usecase.energyconsumption.exception.ProfileNotFoundException;
 import com.tis.usecase.energyconsumption.repository.MeterRepository;
 import com.tis.usecase.energyconsumption.repository.ProfileRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
-@Component
+@Service
 @AllArgsConstructor
 public class MeterHandlerService {
 
@@ -18,15 +19,21 @@ public class MeterHandlerService {
 
     private ProfileRepository profileRepository;
 
+    private MeterValidator meterValidator;
+
     public void saveAll(List<MeterEntity> meters) {
         List<ProfileEntity> profiles = profileRepository.findAll();
-        meters.forEach(meterEntity -> {
-            List<ProfileEntity> matchingProfile = profiles.stream().filter(profile -> profile.getName().equals(meterEntity.getProfileName())).collect(Collectors.toList());
-            if (matchingProfile.size() != 1) {
-                throw new IllegalArgumentException(); // TODO change to a custom exception
-            }
-            meterEntity.setProfile(matchingProfile.get(0));
+        meters.forEach( meterEntity -> {
+            ProfileEntity profile = Optional.of(profileRepository.findByName(meterEntity.getProfileName()).get(0)).orElseThrow();
+            meterEntity.setProfile(profile);
         });
+        meterValidator.validateMeterReadingValues(profiles, meters);
+        calculateConsumption(profiles, meters);
         meterRepository.saveAll(meters);
     }
+
+    private void calculateConsumption(List<ProfileEntity> profiles, List<MeterEntity> meters) {
+        // TODO
+    }
+
 }

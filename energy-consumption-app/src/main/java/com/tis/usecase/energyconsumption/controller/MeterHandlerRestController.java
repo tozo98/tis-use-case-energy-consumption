@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,7 +22,7 @@ public class MeterHandlerRestController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void saveReadings(@RequestBody List<MeterRequest> request) {
+    public void saveReadings(@Valid @RequestBody List<MeterRequest> request) {
         meterHandlerService.saveAll(request.stream().map(meterRequestConverter::convert).collect(Collectors.toList()));
     }
 
