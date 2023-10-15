@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,7 +30,7 @@ public class ProfileHandlerRestController {
     }
 
     @GetMapping("/{name}")
-    public ProfileResponse findProfile(@NotBlank @RequestParam String name) {
+    public ProfileResponse findProfile(@PathVariable String name) {
         return profileResponseConverter.convert(profileHandlerService.findByName(name));
     }
 
