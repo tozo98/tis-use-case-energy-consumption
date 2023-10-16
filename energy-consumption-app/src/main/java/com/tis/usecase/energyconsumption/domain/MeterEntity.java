@@ -1,7 +1,6 @@
 package com.tis.usecase.energyconsumption.domain;
 
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.List;

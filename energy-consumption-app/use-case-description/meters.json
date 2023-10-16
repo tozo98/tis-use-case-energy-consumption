@@ -1,20 +1,20 @@
 [
   {
     "meterId": 2,
-    "profile": "B",
+    "profileName": "B",
     "readings": {
-      "FEB": 2.0,
-      "JAN": 1.0,
-      "MAR": 3.0,
-      "APR": 4.0,
-      "MAY": 5.0,
-      "JUN": 6.0,
-      "JUL": 7.0,
-      "AUG": 8.0,
-      "SEP": 9.0,
-      "OCT": 10.0,
-      "NOV": 11.0,
-      "DEC": 12.0
+      "JAN": 10.0,
+      "FEB": 20.0,
+      "MAR": 20.0,
+      "APR": 20.0,
+      "MAY": 20.0,
+      "JUN": 20.0,
+      "JUL": 20.0,
+      "AUG": 20.0,
+      "SEP": 20.0,
+      "OCT": 20.0,
+      "NOV": 30.0,
+      "DEC": 50.0
     }
   }
 ]

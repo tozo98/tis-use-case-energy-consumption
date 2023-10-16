@@ -1,5 +1,6 @@
 package com.tis.usecase.energyconsumption.service;
 
+import com.tis.usecase.energyconsumption.domain.FractionEntity;
 import com.tis.usecase.energyconsumption.domain.MeterEntity;
 import com.tis.usecase.energyconsumption.domain.MeterReadingEntity;
 import com.tis.usecase.energyconsumption.domain.ProfileEntity;
@@ -10,9 +11,7 @@ import com.tis.usecase.energyconsumption.repository.ProfileRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -24,6 +23,12 @@ public class MeterHandlerService {
 
     private MeterValidator meterValidator;
 
+    public MeterEntity findById(Long id) {
+        MeterEntity meterEntity = meterRepository.findById(id).orElseThrow();
+        validateConsumptionBasedOnFractions(List.of(meterEntity));
+        return meterEntity;
+    }
+
     public void saveAll(List<MeterEntity> meters) {
         List<ProfileEntity> profiles = profileRepository.findAll();
         meters.forEach(this::setProfileForMeterEntity);
@@ -33,7 +38,24 @@ public class MeterHandlerService {
     }
 
     void validateConsumptionBasedOnFractions(List<MeterEntity> meters) {
-        
+        meters.forEach(meterEntity -> {
+            Map<Integer, FractionEntity> fractions = new HashMap<>();
+            meterEntity.getProfile().getFractions().forEach(fraction -> {
+                fractions.put(fraction.getMonth(), fraction);
+            });
+            Double sum = meterEntity.getMeterReadings().stream().mapToDouble(MeterReadingEntity::getConsumption).sum();
+            meterEntity.getMeterReadings().forEach(meterReading -> {
+                Double consumption = meterReading.getConsumption();
+                Double fraction = fractions.get(meterReading.getMonth()).getValue();
+                validateConsumptionBasedOnFractions(sum, fraction, consumption);
+            });
+        });
+    }
+
+    void validateConsumptionBasedOnFractions(Double totalConsumption, Double fraction, Double actualConsumption) {
+        if (Double.compare(actualConsumption, fraction * totalConsumption * 0.75) < 0 || Double.compare(actualConsumption, fraction * totalConsumption * 1.25) > 0) {
+            throw new MeterReadingValidationException("Meter reading is not valid based on the given fraction");
+        }
     }
 
     void setProfileForMeterEntity(MeterEntity meterEntity) {
@@ -64,7 +86,7 @@ public class MeterHandlerService {
         });
     }
 
-    private static void sortMeterReadingsBasedOnMonths(List<MeterEntity> meters) {
+    void sortMeterReadingsBasedOnMonths(List<MeterEntity> meters) {
         meters.forEach(meter -> {
             List<MeterReadingEntity> meterReading = new ArrayList<>(meter.getMeterReadings());
             meterReading.sort(Comparator.comparing(MeterReadingEntity::getMonth));

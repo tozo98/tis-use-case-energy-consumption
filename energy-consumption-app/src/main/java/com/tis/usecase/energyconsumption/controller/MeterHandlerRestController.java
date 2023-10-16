@@ -1,7 +1,9 @@
 package com.tis.usecase.energyconsumption.controller;
 
 import com.tis.usecase.energyconsumption.converter.MeterRequestConverter;
+import com.tis.usecase.energyconsumption.converter.MeterResponseConverter;
 import com.tis.usecase.energyconsumption.domain.MeterRequest;
+import com.tis.usecase.energyconsumption.domain.MeterResponse;
 import com.tis.usecase.energyconsumption.service.MeterHandlerService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,10 +22,17 @@ public class MeterHandlerRestController {
 
     private MeterRequestConverter meterRequestConverter;
 
+    private MeterResponseConverter meterResponseConverter;
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void saveReadings(@Valid @RequestBody List<MeterRequest> request) {
         meterHandlerService.saveAll(request.stream().map(meterRequestConverter::convert).collect(Collectors.toList()));
+    }
+
+    @GetMapping("/{id}")
+    public MeterResponse findById(@PathVariable Long id) {
+        return meterResponseConverter.convert(meterHandlerService.findById(id));
     }
 
 }

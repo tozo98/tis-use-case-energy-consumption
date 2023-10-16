@@ -1,7 +1,6 @@
 package com.tis.usecase.energyconsumption.advice;
 
 import com.tis.usecase.energyconsumption.controller.MeterHandlerRestController;
-import com.tis.usecase.energyconsumption.exception.InvalidProfileException;
 import com.tis.usecase.energyconsumption.exception.MeterReadingValidationException;
 import com.tis.usecase.energyconsumption.exception.ProfileNotFoundException;
 import org.springframework.http.HttpHeaders;
@@ -17,8 +16,8 @@ import java.util.NoSuchElementException;
 @ControllerAdvice(assignableTypes = {MeterHandlerRestController.class})
 public class MeterHandlerRestControllerAdvice extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<Object> handleProfileNotFoundException(NoSuchElementException exception, WebRequest request) {
+    @ExceptionHandler(ProfileNotFoundException.class)
+    public ResponseEntity<Object> handleProfileNotFoundException(ProfileNotFoundException exception, WebRequest request) {
         return handleExceptionInternal(exception, exception.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 
