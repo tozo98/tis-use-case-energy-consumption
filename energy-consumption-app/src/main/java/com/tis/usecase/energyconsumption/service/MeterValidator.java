@@ -34,6 +34,4 @@ public class MeterValidator {
             throw new MeterReadingValidationException("Meter reading is not valid based on the given fraction");
         }
     }
-
-
 }

@@ -1,6 +1,5 @@
 package com.tis.usecase.energyconsumption.service;
 
-import com.tis.usecase.energyconsumption.domain.FractionEntity;
 import com.tis.usecase.energyconsumption.domain.MeterEntity;
 import com.tis.usecase.energyconsumption.domain.MeterReadingEntity;
 import com.tis.usecase.energyconsumption.domain.ProfileEntity;
@@ -37,7 +36,7 @@ class MeterHandlerServiceTest {
     private MeterHandlerService underTest;
 
     @Test
-    public void testSaveAllMethodHappyPath(){
+    public void testSaveAllMethodHappyPath() {
         ProfileEntity profile = new ProfileEntity();
         profile.setName("profile-name");
         when(profileRepositoryMock.findAll()).thenReturn(List.of(profile));
@@ -126,7 +125,7 @@ class MeterHandlerServiceTest {
     }
 
     @Test
-    public void testFindById(){
+    public void testFindById() {
         MeterEntity entity = new MeterEntity();
         entity.setId(42L);
         when(meterRepositoryMock.findById(any())).thenReturn(Optional.of(entity));
@@ -136,5 +135,23 @@ class MeterHandlerServiceTest {
         assertEquals(42L, result.getId().longValue());
         verify(meterRepositoryMock).findById(any());
         verify(meterValidatorMock).validateConsumptionBasedOnFractions(any());
+    }
+
+    @Test
+    public void testValidateIdsWhenIdIsNotPresent() {
+        MeterEntity entity = new MeterEntity();
+        entity.setId(42L);
+        when(meterRepositoryMock.existsById(anyLong())).thenReturn(false);
+        assertDoesNotThrow(() -> underTest.validateMeterId(List.of(entity)));
+        verify(meterRepositoryMock).existsById(anyLong());
+    }
+
+    @Test
+    public void testValidateIdsWhenIdIsPresent() {
+        MeterEntity entity = new MeterEntity();
+        entity.setId(42L);
+        when(meterRepositoryMock.existsById(anyLong())).thenReturn(true);
+        assertThrows(MeterReadingValidationException.class, () -> underTest.validateMeterId(List.of(entity)));
+        verify(meterRepositoryMock).existsById(anyLong());
     }
 }

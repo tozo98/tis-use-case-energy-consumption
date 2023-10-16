@@ -11,18 +11,24 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.NoSuchElementException;
 
 @ControllerAdvice(assignableTypes = {MeterHandlerRestController.class})
 public class MeterHandlerRestControllerAdvice extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(ProfileNotFoundException.class)
-    public ResponseEntity<Object> handleProfileNotFoundException(ProfileNotFoundException exception, WebRequest request) {
+    @ExceptionHandler({ProfileNotFoundException.class, NoSuchElementException.class})
+    public ResponseEntity<Object> handleProfileNotFoundException(Exception exception, WebRequest request) {
         return handleExceptionInternal(exception, exception.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 
     @ExceptionHandler(MeterReadingValidationException.class)
     public ResponseEntity<Object> handleMeterReadingValidationException(MeterReadingValidationException exception, WebRequest request) {
+        return handleExceptionInternal(exception, exception.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    public ResponseEntity<Object> handleDbRelatedException(SQLIntegrityConstraintViolationException exception, WebRequest request) {
         return handleExceptionInternal(exception, exception.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 
