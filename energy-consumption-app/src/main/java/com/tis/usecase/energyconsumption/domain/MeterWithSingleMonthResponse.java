@@ -8,4 +8,5 @@ public class MeterWithSingleMonthResponse {
     private String profileName;
     private String month;
     private Double consumption;
+    private Double reading;
 }
