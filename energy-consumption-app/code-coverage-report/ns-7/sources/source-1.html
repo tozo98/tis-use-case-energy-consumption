@@ -1,0 +1,224 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > MeterHandlerService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.tis.usecase.energyconsumption.service</a>
+</div>
+
+<h1>Coverage Summary for Class: MeterHandlerService (com.tis.usecase.energyconsumption.service)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MeterHandlerService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (10/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (32/32)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">MeterHandlerService$MockitoMock$1587406998</td>
+  </tr>
+  <tr>
+    <td class="name">MeterHandlerService$MockitoMock$1587406998$auxiliary$6Fqq5pNx</td>
+  </tr>
+  <tr>
+    <td class="name">MeterHandlerService$MockitoMock$1587406998$auxiliary$Dya3JwfD</td>
+  </tr>
+  <tr>
+    <td class="name">MeterHandlerService$MockitoMock$1587406998$auxiliary$fdaacL5p</td>
+  </tr>
+  <tr>
+    <td class="name">MeterHandlerService$MockitoMock$1587406998$auxiliary$hyHwZDgN</td>
+  </tr>
+  <tr>
+    <td class="name">MeterHandlerService$MockitoMock$1587406998$auxiliary$icggMIhs</td>
+  </tr>
+  <tr>
+    <td class="name">MeterHandlerService$MockitoMock$1587406998$auxiliary$mmrgD8IV</td>
+  </tr>
+  <tr>
+    <td class="name">MeterHandlerService$MockitoMock$1587406998$auxiliary$oWjPfUBR</td>
+  </tr>
+  <tr>
+    <td class="name">MeterHandlerService$MockitoMock$1587406998$auxiliary$rK4CRdF2</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (10/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (32/32)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.tis.usecase.energyconsumption.service;
+&nbsp;
+&nbsp;import com.tis.usecase.energyconsumption.domain.MeterEntity;
+&nbsp;import com.tis.usecase.energyconsumption.domain.MeterReadingEntity;
+&nbsp;import com.tis.usecase.energyconsumption.domain.ProfileEntity;
+&nbsp;import com.tis.usecase.energyconsumption.exception.MeterAlreadyExistException;
+&nbsp;import com.tis.usecase.energyconsumption.exception.MeterReadingValidationException;
+&nbsp;import com.tis.usecase.energyconsumption.exception.ProfileNotFoundException;
+&nbsp;import com.tis.usecase.energyconsumption.repository.MeterRepository;
+&nbsp;import com.tis.usecase.energyconsumption.repository.ProfileRepository;
+&nbsp;import lombok.AllArgsConstructor;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Comparator;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@Service
+<b class="fc">&nbsp;@AllArgsConstructor</b>
+&nbsp;public class MeterHandlerService {
+&nbsp;
+&nbsp;    private MeterRepository meterRepository;
+&nbsp;
+&nbsp;    private ProfileRepository profileRepository;
+&nbsp;
+&nbsp;    private MeterValidator meterValidator;
+&nbsp;
+&nbsp;    public MeterEntity findById(Long id) {
+<b class="fc">&nbsp;        MeterEntity meterEntity = meterRepository.findById(id).orElseThrow();</b>
+<b class="fc">&nbsp;        meterValidator.validateConsumptionBasedOnFractions(List.of(meterEntity));</b>
+<b class="fc">&nbsp;        return meterEntity;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void saveAll(List&lt;MeterEntity&gt; meters) {
+<b class="fc">&nbsp;        List&lt;ProfileEntity&gt; profiles = profileRepository.findAll();</b>
+<b class="fc">&nbsp;        validateMeterId(meters);</b>
+<b class="fc">&nbsp;        meters.forEach(this::setProfileForMeterEntity);</b>
+<b class="fc">&nbsp;        calculateConsumption(profiles, meters);</b>
+<b class="fc">&nbsp;        meterValidator.validateConsumptionBasedOnFractions(meters);</b>
+<b class="fc">&nbsp;        meterRepository.saveAll(meters);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    void validateMeterId(List&lt;MeterEntity&gt; meters) {
+<b class="fc">&nbsp;        meters.forEach(meter -&gt; {</b>
+<b class="fc">&nbsp;            if(meterRepository.existsById(meter.getId())) {</b>
+<b class="fc">&nbsp;                throw new MeterAlreadyExistException(&quot;MeterId already exists!&quot;);</b>
+&nbsp;            }
+&nbsp;        });
+&nbsp;    }
+&nbsp;
+&nbsp;    void setProfileForMeterEntity(MeterEntity meterEntity) {
+<b class="fc">&nbsp;        if (meterEntity.getProfile() == null) {</b>
+<b class="fc">&nbsp;            List&lt;ProfileEntity&gt; profiles = profileRepository.findByName(meterEntity.getProfileName());</b>
+<b class="fc">&nbsp;            if (profiles.isEmpty()) {</b>
+<b class="fc">&nbsp;                throw new ProfileNotFoundException(&quot;Profile does not exist with profileName: &quot; + meterEntity.getProfileName());</b>
+&nbsp;            } else {
+<b class="fc">&nbsp;                meterEntity.setProfile(profiles.get(0));</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    void calculateConsumption(List&lt;ProfileEntity&gt; profiles, List&lt;MeterEntity&gt; meters) {
+<b class="fc">&nbsp;        sortMeterReadingsBasedOnMonths(meters);</b>
+<b class="fc">&nbsp;        meters.forEach(meterEntity -&gt; {</b>
+<b class="fc">&nbsp;            for (int i = 1; i &lt; meterEntity.getMeterReadings().size(); i++) {</b>
+<b class="fc">&nbsp;                MeterReadingEntity actual = meterEntity.getMeterReadings().get(i);</b>
+<b class="fc">&nbsp;                MeterReadingEntity previous = meterEntity.getMeterReadings().get(i - 1);</b>
+<b class="fc">&nbsp;                if (Double.compare(previous.getReading(), actual.getReading()) &gt; 0) {</b>
+<b class="fc">&nbsp;                    throw new MeterReadingValidationException(&quot;Meter reading is invalid&quot;);</b>
+&nbsp;                }
+<b class="fc">&nbsp;                if (i == 1) {</b>
+<b class="fc">&nbsp;                    previous.setConsumption(previous.getReading());</b>
+&nbsp;                }
+<b class="fc">&nbsp;                actual.setConsumption(actual.getReading() - previous.getReading());</b>
+&nbsp;            }
+&nbsp;        });
+&nbsp;    }
+&nbsp;
+&nbsp;    void sortMeterReadingsBasedOnMonths(List&lt;MeterEntity&gt; meters) {
+<b class="fc">&nbsp;        meters.forEach(meter -&gt; {</b>
+<b class="fc">&nbsp;            List&lt;MeterReadingEntity&gt; meterReading = new ArrayList&lt;&gt;(meter.getMeterReadings());</b>
+<b class="fc">&nbsp;            meterReading.sort(Comparator.comparing(MeterReadingEntity::getMonth));</b>
+<b class="fc">&nbsp;            meter.setMeterReadings(meterReading);</b>
+&nbsp;        });
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-10-16 19:17</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,146 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ProfileHandlerRestController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.tis.usecase.energyconsumption.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: ProfileHandlerRestController (com.tis.usecase.energyconsumption.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ProfileHandlerRestController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.tis.usecase.energyconsumption.controller;
+&nbsp;
+&nbsp;import com.tis.usecase.energyconsumption.converter.ProfileConverter;
+&nbsp;import com.tis.usecase.energyconsumption.converter.ProfileResponseConverter;
+&nbsp;import com.tis.usecase.energyconsumption.domain.ProfileRequest;
+&nbsp;import com.tis.usecase.energyconsumption.domain.ProfileResponse;
+&nbsp;import com.tis.usecase.energyconsumption.service.ProfileHandlerService;
+&nbsp;import lombok.AllArgsConstructor;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;import javax.validation.Valid;
+&nbsp;import java.util.List;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;@RestController
+&nbsp;@RequestMapping(&quot;/api/v1/profiles&quot;)
+<b class="fc">&nbsp;@AllArgsConstructor</b>
+&nbsp;public class ProfileHandlerRestController {
+&nbsp;
+&nbsp;    private ProfileHandlerService profileHandlerService;
+&nbsp;
+&nbsp;    private ProfileConverter profileConverter;
+&nbsp;
+&nbsp;    private ProfileResponseConverter profileResponseConverter;
+&nbsp;
+&nbsp;    @GetMapping
+&nbsp;    public List&lt;ProfileResponse&gt; findProfiles() {
+<b class="fc">&nbsp;        return profileHandlerService.findAll().stream().map(profileResponseConverter::convert).collect(Collectors.toList());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @GetMapping(&quot;/{name}&quot;)
+&nbsp;    public ProfileResponse findByName(@PathVariable String name) {
+<b class="fc">&nbsp;        return profileResponseConverter.convert(profileHandlerService.findByName(name));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @PostMapping
+&nbsp;    @ResponseStatus(HttpStatus.CREATED)
+&nbsp;    public void saveAll(@Valid @RequestBody List&lt;ProfileRequest&gt; request) {
+<b class="fc">&nbsp;        profileHandlerService.saveAll(request.stream().map(profileConverter::convert).collect(Collectors.toList()));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-10-16 19:17</div>
+</div>
+</body>
+</html>

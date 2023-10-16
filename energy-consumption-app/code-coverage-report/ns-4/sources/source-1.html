@@ -1,0 +1,159 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > MeterRequestConverter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.tis.usecase.energyconsumption.converter</a>
+</div>
+
+<h1>Coverage Summary for Class: MeterRequestConverter (com.tis.usecase.energyconsumption.converter)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MeterRequestConverter</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (13/13)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">MeterRequestConverter$MockitoMock$206075131</td>
+  </tr>
+  <tr>
+    <td class="name">MeterRequestConverter$MockitoMock$206075131$auxiliary$cMzmSoDW</td>
+  </tr>
+  <tr>
+    <td class="name">MeterRequestConverter$MockitoMock$206075131$auxiliary$hCHS5AO5</td>
+  </tr>
+  <tr>
+    <td class="name">MeterRequestConverter$MockitoMock$206075131$auxiliary$IwE64B13</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (13/13)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.tis.usecase.energyconsumption.converter;
+&nbsp;
+&nbsp;import com.tis.usecase.energyconsumption.domain.MeterEntity;
+&nbsp;import com.tis.usecase.energyconsumption.domain.MeterReadingEntity;
+&nbsp;import com.tis.usecase.energyconsumption.domain.MeterRequest;
+&nbsp;import lombok.AllArgsConstructor;
+&nbsp;import org.springframework.core.convert.converter.Converter;
+&nbsp;import org.springframework.stereotype.Component;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@Component
+<b class="fc">&nbsp;@AllArgsConstructor</b>
+&nbsp;public class MeterRequestConverter implements Converter&lt;MeterRequest, MeterEntity&gt; {
+&nbsp;
+&nbsp;    private MonthConverter monthConverter;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public MeterEntity convert(MeterRequest meterRequest) {
+<b class="fc">&nbsp;        MeterEntity meterEntity = new MeterEntity();</b>
+<b class="fc">&nbsp;        meterEntity.setId(meterRequest.getMeterId());</b>
+<b class="fc">&nbsp;        meterEntity.setProfileName(meterRequest.getProfileName());</b>
+<b class="fc">&nbsp;        List&lt;MeterReadingEntity&gt; meterReadings = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        meterRequest.getReadings().forEach(</b>
+&nbsp;                (key, value) -&gt; {
+<b class="fc">&nbsp;                    MeterReadingEntity meterReading = new MeterReadingEntity();</b>
+<b class="fc">&nbsp;                    meterReading.setReading(value);</b>
+<b class="fc">&nbsp;                    meterReading.setMonth(monthConverter.convert(key));</b>
+<b class="fc">&nbsp;                    meterReading.setMeter(meterEntity);</b>
+<b class="fc">&nbsp;                    meterReadings.add(meterReading);</b>
+&nbsp;                }
+&nbsp;        );
+<b class="fc">&nbsp;        meterEntity.setMeterReadings(meterReadings);</b>
+<b class="fc">&nbsp;        return meterEntity;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-10-16 19:17</div>
+</div>
+</body>
+</html>
