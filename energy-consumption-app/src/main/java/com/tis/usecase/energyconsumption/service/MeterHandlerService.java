@@ -32,17 +32,16 @@ public class MeterHandlerService {
     }
 
     public void saveAll(List<MeterEntity> meters) {
-        List<ProfileEntity> profiles = profileRepository.findAll();
         validateMeterId(meters);
         meters.forEach(this::setProfileForMeterEntity);
-        calculateConsumption(profiles, meters);
+        calculateConsumption(meters);
         meterValidator.validateConsumptionBasedOnFractions(meters);
         meterRepository.saveAll(meters);
     }
 
     void validateMeterId(List<MeterEntity> meters) {
         meters.forEach(meter -> {
-            if(meterRepository.existsById(meter.getId())) {
+            if (meterRepository.existsById(meter.getId())) {
                 throw new MeterAlreadyExistException("MeterId already exists!");
             }
         });
@@ -59,7 +58,7 @@ public class MeterHandlerService {
         }
     }
 
-    void calculateConsumption(List<ProfileEntity> profiles, List<MeterEntity> meters) {
+    void calculateConsumption(List<MeterEntity> meters) {
         sortMeterReadingsBasedOnMonths(meters);
         meters.forEach(meterEntity -> {
             for (int i = 1; i < meterEntity.getMeterReadings().size(); i++) {

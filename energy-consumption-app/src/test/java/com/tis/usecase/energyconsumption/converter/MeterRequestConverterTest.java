@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Map;
@@ -25,7 +24,7 @@ class MeterRequestConverterTest {
     private MeterRequestConverter underTest;
 
     @Test
-    public void testConvertMethod(){
+    public void testConvertMethod() {
         MeterRequest request = new MeterRequest();
         request.setMeterId(42L);
         request.setProfileName("profile-name");

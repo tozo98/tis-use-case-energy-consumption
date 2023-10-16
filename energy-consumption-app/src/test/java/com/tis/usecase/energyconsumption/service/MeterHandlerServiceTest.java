@@ -40,7 +40,6 @@ class MeterHandlerServiceTest {
     public void testSaveAllMethodHappyPath() {
         ProfileEntity profile = new ProfileEntity();
         profile.setName("profile-name");
-        when(profileRepositoryMock.findAll()).thenReturn(List.of(profile));
         when(profileRepositoryMock.findByName(anyString())).thenReturn(List.of(profile));
         MeterEntity meter = new MeterEntity();
         meter.setProfileName("profile-name");
@@ -49,7 +48,6 @@ class MeterHandlerServiceTest {
 
         underTest.saveAll(meters);
 
-        verify(profileRepositoryMock).findAll();
         verify(meterValidatorMock).validateConsumptionBasedOnFractions(any());
         verify(meterRepositoryMock).saveAll(any());
 
@@ -99,7 +97,7 @@ class MeterHandlerServiceTest {
         meterReading4.setReading(15.0);
         meterReading4.setMonth(4);
         meterEntity.setMeterReadings(List.of(meterReading1, meterReading2, meterReading3, meterReading4));
-        assertDoesNotThrow(() -> underTest.calculateConsumption(List.of(new ProfileEntity()), List.of(meterEntity)));
+        assertDoesNotThrow(() -> underTest.calculateConsumption(List.of(meterEntity)));
         assertEquals(1.0, meterReading1.getConsumption().doubleValue());
         assertEquals(9.0, meterReading2.getConsumption().doubleValue());
         assertEquals(2.0, meterReading3.getConsumption().doubleValue());
@@ -122,7 +120,7 @@ class MeterHandlerServiceTest {
         meterReading4.setReading(2.0);
         meterReading4.setMonth(4);
         meterEntity.setMeterReadings(List.of(meterReading1, meterReading2, meterReading3, meterReading4));
-        assertThrows(MeterReadingValidationException.class, () -> underTest.calculateConsumption(List.of(new ProfileEntity()), List.of(meterEntity)));
+        assertThrows(MeterReadingValidationException.class, () -> underTest.calculateConsumption(List.of(meterEntity)));
     }
 
     @Test

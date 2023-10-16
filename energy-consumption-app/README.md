@@ -1,32 +1,45 @@
-# tis-use-case-energy-consumption
+# The IT Solutions Use Case – Energy Consumption
 
-## About my solution
-* In the sample-request folder I added some example request to demonstrate the new data format.
-  These are a bit optimized for data processing, compared to the legacy data formats that were given in the description.
-* I created a Docker-based solution, I placed all the necessary properties into the docker-compose.yml file to create my services: 
-A service for the Java 11 based Spring Boot (2.1.8.RELEASE) application, and a service for the PostgreSQL database (15.0 version). 
-* To make the evaluation easier, the database will be initialized with some valid sample data during the startup process.
-The source/main/resources/import.sql file contains the scripts for the initialization.
+## Introduction
+* This is the repository for solution to the [Energy Consumption Use Case](./requirements/use-case.pdf).
+To fulfill the requirements I used Docker, the [docker-compose.yml](./docker-compose.yml) file contains all the necessary properties to be able to create my services: 
+A service with a Java 11 based Spring Boot (2.1.8.RELEASE) application, and a service for a PostgreSQL database (15.0 version). 
+* According to the requirements document, the database will be initialized with some valid sample data during the startup process.
+The [import.sql](./source/main/resources/import.sql) file contains the scripts for the initialization.
+* The application POST endpoints consume data as JSON payloads, in the sample-request folder there are samples to demonstrate the correct format. 
+I created these JSON objects to be similar to the legacy data formats, but now they are more compact and optimized to process.
 * The application uses the default 8080 port.
-* In the code-coverage-report folder you can find a generated report about the code coverage of the project.
+* In the [code-coverage-report](./code-coverage-report) folder there is a generated [report](./code-coverage-report/index.html) about the code coverage of the project.
 
 ## API endpoints
 
 ### `GET api/v1/profiles`
-
-*   returns with the stored profiles
+* 200 OK, returns with the stored profiles.
 
 ### `GET api/v1/profiles/{profileName}`
-
-* returns the specific profile with the matching profile name.
-* returns with 400 Bad request if the profile doesn't exist in the database.
+* 200 OK, returns the specific profile with the matching profile name.
+* Returns with 400 Bad request, if the profile doesn't exist in the database.
 
 ### `POST api/v1/profiles`
+* It accepts JSON payload that represents profile(s).
+* 201 Created, if profile(s) are validated and saved.
+* 400 Bad request, if the profile's fractions are invalid based on the requirements document.
+* 400 Bad request, if the profile already exists (based on the name).
 
 ### `GET api/v1/meter-readings/{id}`
-### `GET api/v1/meter-readings/{id}/{month}`
-### `POST api/v1/meter-readings`
+* 200 OK, returns with a MeterResponse object.
+* 400 Bad request, if the given id does not exist.
 
+### `GET api/v1/meter-readings/{id}/{month}`
+* 200 OK, returns with a simplified MeterResponse object that contains data for the given month.
+* The month path variable should be formatted like: {JAN, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC}.
+* 400 Bad request, if the given id does not exist.
+
+### `POST api/v1/meter-readings`
+* It accepts JSON payload that represents MeterRequest objects.
+* 201 Created, if request(s) are validated and saved.
+* 400 Bad request, if the mentioned profile does not exist.
+* 400 Bad request, if the meter readings are invalid based on the requirements document.
 
 ## How to start the project
 Please perform these commands to build the application and start the containers.

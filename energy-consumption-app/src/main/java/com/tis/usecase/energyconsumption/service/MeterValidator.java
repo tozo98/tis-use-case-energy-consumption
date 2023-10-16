@@ -16,9 +16,7 @@ public class MeterValidator {
     public void validateConsumptionBasedOnFractions(List<MeterEntity> meters) {
         meters.forEach(meterEntity -> {
             Map<Integer, FractionEntity> fractions = new HashMap<>();
-            meterEntity.getProfile().getFractions().forEach(fraction -> {
-                fractions.put(fraction.getMonth(), fraction);
-            });
+            meterEntity.getProfile().getFractions().forEach(fraction -> fractions.put(fraction.getMonth(), fraction));
             Double sum = meterEntity.getMeterReadings().stream().mapToDouble(MeterReadingEntity::getConsumption).sum();
             meterEntity.getMeterReadings().forEach(meterReading -> {
                 Double consumption = meterReading.getConsumption();

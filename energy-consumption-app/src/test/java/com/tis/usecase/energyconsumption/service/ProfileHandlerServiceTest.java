@@ -80,7 +80,7 @@ class ProfileHandlerServiceTest {
     }
 
     @Test
-    public void testValidateForExisitingProfilesShouldNotThrowException(){
+    public void testValidateForExistingProfilesShouldNotThrowException(){
         ProfileEntity profile = new ProfileEntity();
         profile.setName("profile-name");
         when(profileRepositoryMock.findByName(anyString())).thenReturn(List.of());

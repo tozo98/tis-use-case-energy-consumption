@@ -38,7 +38,7 @@ public class MeterResponseConverter implements Converter<MeterEntity, MeterRespo
         response.setMonth(month);
         response.setProfileName(entity.getProfile().getName());
         MeterReadingEntity meterReadingForGivenMonth = entity.getMeterReadings().stream()
-                .filter(reading -> reading.getMonth() == monthConverter.convert(month))
+                .filter(reading -> reading.getMonth().equals(monthConverter.convert(month)))
                 .collect(Collectors.toList()).get(0);
         response.setConsumption(meterReadingForGivenMonth.getConsumption());
         response.setReading(meterReadingForGivenMonth.getReading());

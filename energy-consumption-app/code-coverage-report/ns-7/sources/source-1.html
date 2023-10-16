@@ -51,36 +51,36 @@ Current scope:     <a href="../../index.html">all classes</a>
     100%
   </span>
   <span class="absValue">
-    (32/32)
+    (31/31)
   </span>
 </td>
 </tr>
   <tr>
-    <td class="name">MeterHandlerService$MockitoMock$1587406998</td>
+    <td class="name">MeterHandlerService$MockitoMock$553215775</td>
   </tr>
   <tr>
-    <td class="name">MeterHandlerService$MockitoMock$1587406998$auxiliary$6Fqq5pNx</td>
+    <td class="name">MeterHandlerService$MockitoMock$553215775$auxiliary$ABzP4G4J</td>
   </tr>
   <tr>
-    <td class="name">MeterHandlerService$MockitoMock$1587406998$auxiliary$Dya3JwfD</td>
+    <td class="name">MeterHandlerService$MockitoMock$553215775$auxiliary$atVg5Nsb</td>
   </tr>
   <tr>
-    <td class="name">MeterHandlerService$MockitoMock$1587406998$auxiliary$fdaacL5p</td>
+    <td class="name">MeterHandlerService$MockitoMock$553215775$auxiliary$D5Fmhqms</td>
   </tr>
   <tr>
-    <td class="name">MeterHandlerService$MockitoMock$1587406998$auxiliary$hyHwZDgN</td>
+    <td class="name">MeterHandlerService$MockitoMock$553215775$auxiliary$fvOMsDYC</td>
   </tr>
   <tr>
-    <td class="name">MeterHandlerService$MockitoMock$1587406998$auxiliary$icggMIhs</td>
+    <td class="name">MeterHandlerService$MockitoMock$553215775$auxiliary$K2NGCTYr</td>
   </tr>
   <tr>
-    <td class="name">MeterHandlerService$MockitoMock$1587406998$auxiliary$mmrgD8IV</td>
+    <td class="name">MeterHandlerService$MockitoMock$553215775$auxiliary$KSivUm0w</td>
   </tr>
   <tr>
-    <td class="name">MeterHandlerService$MockitoMock$1587406998$auxiliary$oWjPfUBR</td>
+    <td class="name">MeterHandlerService$MockitoMock$553215775$auxiliary$PEREJBDg</td>
   </tr>
   <tr>
-    <td class="name">MeterHandlerService$MockitoMock$1587406998$auxiliary$rK4CRdF2</td>
+    <td class="name">MeterHandlerService$MockitoMock$553215775$auxiliary$VMcOxgbK</td>
   </tr>
 <tr>
   <td class="name"><strong>Total</strong></td>
@@ -97,7 +97,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     100%
   </span>
   <span class="absValue">
-    (32/32)
+    (31/31)
   </span>
 </td>
 </tr>
@@ -142,17 +142,16 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    }
 &nbsp;
 &nbsp;    public void saveAll(List&lt;MeterEntity&gt; meters) {
-<b class="fc">&nbsp;        List&lt;ProfileEntity&gt; profiles = profileRepository.findAll();</b>
 <b class="fc">&nbsp;        validateMeterId(meters);</b>
 <b class="fc">&nbsp;        meters.forEach(this::setProfileForMeterEntity);</b>
-<b class="fc">&nbsp;        calculateConsumption(profiles, meters);</b>
+<b class="fc">&nbsp;        calculateConsumption(meters);</b>
 <b class="fc">&nbsp;        meterValidator.validateConsumptionBasedOnFractions(meters);</b>
 <b class="fc">&nbsp;        meterRepository.saveAll(meters);</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    void validateMeterId(List&lt;MeterEntity&gt; meters) {
 <b class="fc">&nbsp;        meters.forEach(meter -&gt; {</b>
-<b class="fc">&nbsp;            if(meterRepository.existsById(meter.getId())) {</b>
+<b class="fc">&nbsp;            if (meterRepository.existsById(meter.getId())) {</b>
 <b class="fc">&nbsp;                throw new MeterAlreadyExistException(&quot;MeterId already exists!&quot;);</b>
 &nbsp;            }
 &nbsp;        });
@@ -169,7 +168,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;        }
 &nbsp;    }
 &nbsp;
-&nbsp;    void calculateConsumption(List&lt;ProfileEntity&gt; profiles, List&lt;MeterEntity&gt; meters) {
+&nbsp;    void calculateConsumption(List&lt;MeterEntity&gt; meters) {
 <b class="fc">&nbsp;        sortMeterReadingsBasedOnMonths(meters);</b>
 <b class="fc">&nbsp;        meters.forEach(meterEntity -&gt; {</b>
 <b class="fc">&nbsp;            for (int i = 1; i &lt; meterEntity.getMeterReadings().size(); i++) {</b>
@@ -218,7 +217,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-10-16 19:17</div>
+    <div style="float:right;">generated on 2023-10-16 22:38</div>
 </div>
 </body>
 </html>

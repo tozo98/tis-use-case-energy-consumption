@@ -56,19 +56,19 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 </tr>
   <tr>
-    <td class="name">MeterResponseConverter$MockitoMock$1987224367</td>
+    <td class="name">MeterResponseConverter$MockitoMock$1223960437</td>
   </tr>
   <tr>
-    <td class="name">MeterResponseConverter$MockitoMock$1987224367$auxiliary$7zdPISGr</td>
+    <td class="name">MeterResponseConverter$MockitoMock$1223960437$auxiliary$ikOvlDdI</td>
   </tr>
   <tr>
-    <td class="name">MeterResponseConverter$MockitoMock$1987224367$auxiliary$EVAV1Hxk</td>
+    <td class="name">MeterResponseConverter$MockitoMock$1223960437$auxiliary$KFSIAN1q</td>
   </tr>
   <tr>
-    <td class="name">MeterResponseConverter$MockitoMock$1987224367$auxiliary$xI0VUQA4</td>
+    <td class="name">MeterResponseConverter$MockitoMock$1223960437$auxiliary$UjTrtQ8u</td>
   </tr>
   <tr>
-    <td class="name">MeterResponseConverter$MockitoMock$1987224367$auxiliary$zK77IpfH</td>
+    <td class="name">MeterResponseConverter$MockitoMock$1223960437$auxiliary$w4EIiPur</td>
   </tr>
 <tr>
   <td class="name"><strong>Total</strong></td>
@@ -136,7 +136,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        response.setMonth(month);</b>
 <b class="fc">&nbsp;        response.setProfileName(entity.getProfile().getName());</b>
 <b class="fc">&nbsp;        MeterReadingEntity meterReadingForGivenMonth = entity.getMeterReadings().stream()</b>
-<b class="fc">&nbsp;                .filter(reading -&gt; reading.getMonth() == monthConverter.convert(month))</b>
+<b class="fc">&nbsp;                .filter(reading -&gt; reading.getMonth().equals(monthConverter.convert(month)))</b>
 <b class="fc">&nbsp;                .collect(Collectors.toList()).get(0);</b>
 <b class="fc">&nbsp;        response.setConsumption(meterReadingForGivenMonth.getConsumption());</b>
 <b class="fc">&nbsp;        response.setReading(meterReadingForGivenMonth.getReading());</b>
@@ -166,7 +166,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-10-16 19:17</div>
+    <div style="float:right;">generated on 2023-10-16 22:38</div>
 </div>
 </body>
 </html>
