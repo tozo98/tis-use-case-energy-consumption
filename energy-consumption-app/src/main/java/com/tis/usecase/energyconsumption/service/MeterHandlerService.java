@@ -1,9 +1,9 @@
 package com.tis.usecase.energyconsumption.service;
 
-import com.tis.usecase.energyconsumption.domain.FractionEntity;
 import com.tis.usecase.energyconsumption.domain.MeterEntity;
 import com.tis.usecase.energyconsumption.domain.MeterReadingEntity;
 import com.tis.usecase.energyconsumption.domain.ProfileEntity;
+import com.tis.usecase.energyconsumption.exception.MeterAlreadyExistException;
 import com.tis.usecase.energyconsumption.exception.MeterReadingValidationException;
 import com.tis.usecase.energyconsumption.exception.ProfileNotFoundException;
 import com.tis.usecase.energyconsumption.repository.MeterRepository;
@@ -11,7 +11,9 @@ import com.tis.usecase.energyconsumption.repository.ProfileRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -41,7 +43,7 @@ public class MeterHandlerService {
     void validateMeterId(List<MeterEntity> meters) {
         meters.forEach(meter -> {
             if(meterRepository.existsById(meter.getId())) {
-                throw new MeterReadingValidationException("MeterId already exists!");
+                throw new MeterAlreadyExistException("MeterId already exists!");
             }
         });
     }

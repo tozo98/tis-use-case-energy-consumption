@@ -1,6 +1,7 @@
 package com.tis.usecase.energyconsumption.service;
 
 import com.tis.usecase.energyconsumption.domain.ProfileEntity;
+import com.tis.usecase.energyconsumption.exception.InvalidProfileException;
 import com.tis.usecase.energyconsumption.exception.ProfileNotFoundException;
 import com.tis.usecase.energyconsumption.repository.ProfileRepository;
 import lombok.AllArgsConstructor;
@@ -18,8 +19,17 @@ public class ProfileHandlerService {
     private ProfileRepository profileRepository;
 
     public void saveAll(List<ProfileEntity> profiles) {
+        checkForAlreadyExistingProfiles(profiles);
         profileValidator.validate(profiles);
         profileRepository.saveAll(profiles);
+    }
+
+    void checkForAlreadyExistingProfiles(List<ProfileEntity> profiles) {
+        profiles.forEach(profileEntity -> {
+            if(profileRepository.findByName(profileEntity.getName()).size()  > 0) {
+                throw new InvalidProfileException("Profile already exists!");
+            }
+        });
     }
 
     public List<ProfileEntity> findAll() {

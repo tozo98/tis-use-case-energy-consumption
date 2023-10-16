@@ -3,6 +3,7 @@ package com.tis.usecase.energyconsumption.service;
 import com.tis.usecase.energyconsumption.domain.MeterEntity;
 import com.tis.usecase.energyconsumption.domain.MeterReadingEntity;
 import com.tis.usecase.energyconsumption.domain.ProfileEntity;
+import com.tis.usecase.energyconsumption.exception.MeterAlreadyExistException;
 import com.tis.usecase.energyconsumption.exception.MeterReadingValidationException;
 import com.tis.usecase.energyconsumption.exception.ProfileNotFoundException;
 import com.tis.usecase.energyconsumption.repository.MeterRepository;
@@ -151,7 +152,7 @@ class MeterHandlerServiceTest {
         MeterEntity entity = new MeterEntity();
         entity.setId(42L);
         when(meterRepositoryMock.existsById(anyLong())).thenReturn(true);
-        assertThrows(MeterReadingValidationException.class, () -> underTest.validateMeterId(List.of(entity)));
+        assertThrows(MeterAlreadyExistException.class, () -> underTest.validateMeterId(List.of(entity)));
         verify(meterRepositoryMock).existsById(anyLong());
     }
 }

@@ -41,7 +41,6 @@ class ProfileHandlerServiceTest {
         List<ProfileEntity> entities = List.of(new ProfileEntity());
         assertThrows(InvalidProfileException.class, () -> underTest.saveAll(entities));
         verify(profileValidatorMock).validate(any());
-        verifyZeroInteractions(profileRepositoryMock);
     }
 
     @Test
@@ -70,6 +69,22 @@ class ProfileHandlerServiceTest {
         assertNotNull(result);
         assertEquals("profile-name", result.getName());
         verify(profileRepositoryMock).findByName(anyString());
+    }
+
+    @Test
+    public void testValidateForExisitingProfilesShouldThrowException(){
+        ProfileEntity profile = new ProfileEntity();
+        profile.setName("profile-name");
+        when(profileRepositoryMock.findByName(anyString())).thenReturn(List.of(profile));
+        assertThrows(InvalidProfileException.class, ()-> underTest.checkForAlreadyExistingProfiles(List.of(profile)));
+    }
+
+    @Test
+    public void testValidateForExisitingProfilesShouldNotThrowException(){
+        ProfileEntity profile = new ProfileEntity();
+        profile.setName("profile-name");
+        when(profileRepositoryMock.findByName(anyString())).thenReturn(List.of());
+        assertDoesNotThrow(()-> underTest.checkForAlreadyExistingProfiles(List.of(profile)));
     }
 
 

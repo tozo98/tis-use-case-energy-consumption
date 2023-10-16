@@ -3,7 +3,6 @@ package com.tis.usecase.energyconsumption.service;
 import com.tis.usecase.energyconsumption.domain.FractionEntity;
 import com.tis.usecase.energyconsumption.domain.MeterEntity;
 import com.tis.usecase.energyconsumption.domain.MeterReadingEntity;
-import com.tis.usecase.energyconsumption.domain.ProfileEntity;
 import com.tis.usecase.energyconsumption.exception.MeterReadingValidationException;
 import org.springframework.stereotype.Service;
 
