@@ -1,6 +1,7 @@
 package com.tis.usecase.energyconsumption.service;
 
 import com.tis.usecase.energyconsumption.domain.ProfileEntity;
+import com.tis.usecase.energyconsumption.exception.ProfileNotFoundException;
 import com.tis.usecase.energyconsumption.repository.ProfileRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ public class ProfileHandlerService {
     }
 
     public ProfileEntity findByName(String name) {
-        return Optional.ofNullable(profileRepository.findByName(name).get(0)).orElseThrow(IllegalArgumentException::new);
+        return Optional.ofNullable(profileRepository.findByName(name).get(0))
+                .orElseThrow(()-> new ProfileNotFoundException("Profile does not exist!"));
     }
 }

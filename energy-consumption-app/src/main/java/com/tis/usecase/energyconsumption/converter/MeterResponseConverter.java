@@ -3,6 +3,7 @@ package com.tis.usecase.energyconsumption.converter;
 import com.tis.usecase.energyconsumption.domain.MeterEntity;
 import com.tis.usecase.energyconsumption.domain.MeterReadingResponse;
 import com.tis.usecase.energyconsumption.domain.MeterResponse;
+import com.tis.usecase.energyconsumption.domain.MeterWithSingleMonthResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
@@ -31,6 +32,18 @@ public class MeterResponseConverter implements Converter<MeterEntity, MeterRespo
                 }).collect(Collectors.toList());
         response.setMeterReadings(meterReadingResponses);
         response.setTotalConsumption(meterReadingResponses.stream().mapToDouble(MeterReadingResponse::getConsumption).sum());
+        return response;
+    }
+
+    public MeterWithSingleMonthResponse convertToSingleMonthResponse(MeterEntity entity, String month) {
+        MeterWithSingleMonthResponse response = new MeterWithSingleMonthResponse();
+        response.setId(entity.getId());
+        response.setMonth(month);
+        response.setProfileName(entity.getProfile().getName());
+        response.setConsumption(entity.getMeterReadings().stream()
+                .filter(reading -> reading.getMonth() == monthConverter.convert(month))
+                .collect(Collectors.toList()).get(0)
+                .getConsumption());
         return response;
     }
 }

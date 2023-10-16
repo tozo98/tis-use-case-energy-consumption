@@ -59,4 +59,19 @@ class ProfileHandlerServiceTest {
         verify(profileRepositoryMock).findAll();
     }
 
+    @Test
+    public void testFindByNameMethod() {
+        ProfileEntity entity = new ProfileEntity();
+        entity.setName("profile-name");
+        when(profileRepositoryMock.findByName(anyString())).thenReturn(List.of(entity));
+
+        ProfileEntity result = underTest.findByName("profile-name");
+
+        assertNotNull(result);
+        assertEquals("profile-name", result.getName());
+        verify(profileRepositoryMock).findByName(anyString());
+    }
+
+
+
 }

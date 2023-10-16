@@ -25,7 +25,7 @@ public class MeterHandlerService {
 
     public MeterEntity findById(Long id) {
         MeterEntity meterEntity = meterRepository.findById(id).orElseThrow();
-        validateConsumptionBasedOnFractions(List.of(meterEntity));
+        meterValidator.validateConsumptionBasedOnFractions(List.of(meterEntity));
         return meterEntity;
     }
 
@@ -33,29 +33,8 @@ public class MeterHandlerService {
         List<ProfileEntity> profiles = profileRepository.findAll();
         meters.forEach(this::setProfileForMeterEntity);
         calculateConsumption(profiles, meters);
-        validateConsumptionBasedOnFractions(meters);
+        meterValidator.validateConsumptionBasedOnFractions(meters);
         meterRepository.saveAll(meters);
-    }
-
-    void validateConsumptionBasedOnFractions(List<MeterEntity> meters) {
-        meters.forEach(meterEntity -> {
-            Map<Integer, FractionEntity> fractions = new HashMap<>();
-            meterEntity.getProfile().getFractions().forEach(fraction -> {
-                fractions.put(fraction.getMonth(), fraction);
-            });
-            Double sum = meterEntity.getMeterReadings().stream().mapToDouble(MeterReadingEntity::getConsumption).sum();
-            meterEntity.getMeterReadings().forEach(meterReading -> {
-                Double consumption = meterReading.getConsumption();
-                Double fraction = fractions.get(meterReading.getMonth()).getValue();
-                validateConsumptionBasedOnFractions(sum, fraction, consumption);
-            });
-        });
-    }
-
-    void validateConsumptionBasedOnFractions(Double totalConsumption, Double fraction, Double actualConsumption) {
-        if (Double.compare(actualConsumption, fraction * totalConsumption * 0.75) < 0 || Double.compare(actualConsumption, fraction * totalConsumption * 1.25) > 0) {
-            throw new MeterReadingValidationException("Meter reading is not valid based on the given fraction");
-        }
     }
 
     void setProfileForMeterEntity(MeterEntity meterEntity) {

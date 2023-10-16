@@ -30,7 +30,7 @@ public class ProfileHandlerRestController {
     }
 
     @GetMapping("/{name}")
-    public ProfileResponse findProfile(@PathVariable String name) {
+    public ProfileResponse findByName(@PathVariable String name) {
         return profileResponseConverter.convert(profileHandlerService.findByName(name));
     }
 

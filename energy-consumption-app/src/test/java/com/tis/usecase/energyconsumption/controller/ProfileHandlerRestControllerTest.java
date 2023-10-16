@@ -13,6 +13,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -65,6 +67,25 @@ class ProfileHandlerRestControllerTest {
 
         verify(profileHandlerServiceMock).saveAll(any());
         verify(profileConverterMock).convert(any());
+    }
+
+    @Test
+    public void testFindProfileByNameMethod() {
+        ProfileResponse response = new ProfileResponse();
+        response.setName("profile-name");
+        response.setFractions(new HashMap<>());
+        when(profileResponseConverterMock.convert(any())).thenReturn(response);
+        ProfileEntity entity = new ProfileEntity();
+        entity.setName("profile-name");
+        entity.setFractions(new ArrayList<>());
+        when(profileHandlerServiceMock.findByName(anyString())).thenReturn(entity);
+        ProfileResponse result = underTest.findByName("profile-name");
+        assertNotNull(result);
+        assertNotNull(result.getName());
+        assertNotNull(result.getFractions());
+        assertEquals("profile-name", result.getName());
+        verify(profileHandlerServiceMock).findByName(anyString());
+        verify(profileResponseConverterMock).convert(any());
     }
 
 }
