@@ -1,0 +1,67 @@
+{
+  "id": 2,
+  "profileName": "B",
+  "totalConsumption": 40.0,
+  "meterReadings": [
+    {
+      "month": "JAN",
+      "reading": 10.0,
+      "consumption": 10.0
+    },
+    {
+      "month": "FEB",
+      "reading": 20.0,
+      "consumption": 10.0
+    },
+    {
+      "month": "MAR",
+      "reading": 30.0,
+      "consumption": 10.0
+    },
+    {
+      "month": "APR",
+      "reading": 30.0,
+      "consumption": 0.0
+    },
+    {
+      "month": "MAY",
+      "reading": 30.0,
+      "consumption": 0.0
+    },
+    {
+      "month": "JUN",
+      "reading": 30.0,
+      "consumption": 0.0
+    },
+    {
+      "month": "JUL",
+      "reading": 30.0,
+      "consumption": 0.0
+    },
+    {
+      "month": "AUG",
+      "reading": 30.0,
+      "consumption": 0.0
+    },
+    {
+      "month": "SEP",
+      "reading": 30.0,
+      "consumption": 0.0
+    },
+    {
+      "month": "OCT",
+      "reading": 30.0,
+      "consumption": 0.0
+    },
+    {
+      "month": "NOV",
+      "reading": 40.0,
+      "consumption": 10.0
+    },
+    {
+      "month": "DEC",
+      "reading": 40.0,
+      "consumption": 0.0
+    }
+  ]
+}
