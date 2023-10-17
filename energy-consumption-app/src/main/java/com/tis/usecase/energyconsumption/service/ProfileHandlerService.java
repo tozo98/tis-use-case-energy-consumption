@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -26,7 +25,7 @@ public class ProfileHandlerService {
 
     void checkForAlreadyExistingProfiles(List<ProfileEntity> profiles) {
         profiles.forEach(profileEntity -> {
-            if(profileRepository.findByName(profileEntity.getName()).size()  > 0) {
+            if (profileRepository.findByName(profileEntity.getName()).size() > 0) {
                 throw new InvalidProfileException("Profile already exists!");
             }
         });
@@ -37,7 +36,10 @@ public class ProfileHandlerService {
     }
 
     public ProfileEntity findByName(String name) {
-        return Optional.ofNullable(profileRepository.findByName(name).get(0))
-                .orElseThrow(()-> new ProfileNotFoundException("Profile does not exist!"));
+        List<ProfileEntity> result = profileRepository.findByName(name);
+        if (result.isEmpty()) {
+            throw new ProfileNotFoundException("Profile does not exist!");
+        }
+        return result.get(0);
     }
 }

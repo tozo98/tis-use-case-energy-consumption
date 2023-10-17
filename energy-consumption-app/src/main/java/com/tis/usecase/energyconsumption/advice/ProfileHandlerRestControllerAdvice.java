@@ -2,6 +2,7 @@ package com.tis.usecase.energyconsumption.advice;
 
 import com.tis.usecase.energyconsumption.controller.ProfileHandlerRestController;
 import com.tis.usecase.energyconsumption.exception.InvalidProfileException;
+import com.tis.usecase.energyconsumption.exception.ProfileNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -15,8 +16,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @Slf4j
 public class ProfileHandlerRestControllerAdvice extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(InvalidProfileException.class)
-    public ResponseEntity<Object> handleInvalidProfileException(InvalidProfileException exception, WebRequest request) {
+    @ExceptionHandler({InvalidProfileException.class, ProfileNotFoundException.class})
+    public ResponseEntity<Object> handleProfileRelatedExceptions(Exception exception, WebRequest request) {
         log.error("Invalid Profile - returning with 400 Bad request.", exception);
         return handleExceptionInternal(exception, exception.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }

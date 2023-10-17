@@ -26,7 +26,7 @@ public class MeterHandlerService {
     private MeterValidator meterValidator;
 
     public MeterEntity findById(Long id) {
-        MeterEntity meterEntity = meterRepository.findById(id).orElseThrow();
+        MeterEntity meterEntity = meterRepository.findById(id).orElseThrow(() -> new MeterReadingValidationException("Meter does not exist!"));
         meterValidator.validateConsumptionBasedOnFractions(List.of(meterEntity));
         return meterEntity;
     }
